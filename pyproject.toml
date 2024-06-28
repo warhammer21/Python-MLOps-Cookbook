@@ -18,7 +18,7 @@ markupsafe="2.0.1"
 joblib="1.0.1"
 pytest-cov="2.11.1"
 requests="2.25.1"
-
+gunicorn="22.0.0"
 [build-system]
 requires = "poetry-core"
 build-backend = "poetry.core.masonry.api"
