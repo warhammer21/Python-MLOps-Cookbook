@@ -1,18 +1,23 @@
 FROM python:3.8.8-slim-buster
 
+# Install Poetry
+RUN pip install --no-cache-dir poetry
+
 # Working Directory
 WORKDIR /app
 
-# Copy source code to working directory
-COPY . app.py /app/
+# Copy source code and poetry files to working directory
+COPY pyproject.toml poetry.lock /app/
 
-# Install packages from requirements.txt
-# hadolint ignore=DL3013
-RUN pip install --no-cache-dir --upgrade pip &&\
-    pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
+# Install dependencies
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-dev --no-interaction --no-ansi
 
+# Copy the rest of your application
+COPY . /app/
+
+# Expose port
 EXPOSE 8080
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "app.py" ]
+# Command to run the application
+CMD ["poetry", "run", "gunicorn", "-c", "gunicorn_config.py", "app:app"]
