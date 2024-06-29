@@ -1,4 +1,4 @@
-name: MLOPs Python Cookbook with Github Actions
+name: MLOPs Python Cookbook with Github Actionz
 on: [push]
 jobs:
   build:
